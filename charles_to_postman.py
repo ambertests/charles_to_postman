@@ -177,10 +177,14 @@ def convert_charles_to_postman(charles_node):
     status_code = c_response['status']
     p_response = {'name': path, 'originalRequest': p_request,
                   'code': status_code, 'header': [], 'cookie': []}
-    p_status = c_response['header']['firstLine'].replace(
-        '%s %d ' % (protocol, status_code), '')
+    try:
+        p_status = c_response['header']['firstLine'].replace(
+            '%s %d ' % (protocol, status_code), '')
 
-    p_response['status'] = p_status
+        p_response['status'] = p_status
+    except KeyError:
+        pass
+        
     for header in c_response['header']['headers']:
         p_response['header'].append(
             {'key': header['name'], 'value': header['value']})
