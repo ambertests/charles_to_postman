@@ -1,5 +1,5 @@
 # charles_to_postman
-Script for converting Charlesproxy output to a Postman json file
+Script for converting Charlesproxy output to a Postman json file. Requires Python 2.
 
 1) In Charlesproxy, choose File | Export Session...
 2) Select the "JSON Session File" format
