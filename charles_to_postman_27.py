@@ -1,7 +1,7 @@
 """
 charles_to_postman.py
 by: Amber Race
-python version: 3.7
+python version: 2.7
 
 Converts the *.chlsj output of Charlesproxy to the Postman json format.
     Charles Schema:
@@ -204,14 +204,14 @@ def convert_charles_to_postman(charles_node):
 def get_json_dict_from_input_file(input_file):
     """Extracts json string from input file and converts to a dict"""
     if not os.path.isfile(input_file):
-        print("File does not exist: ", input_file)
+        print "File does not exist: ", input_file
         return
 
     input_string = open(input_file, "r").read()
     try:
         chls_json = json.loads(input_string)
-    except ValueError as value_err:
-        print("File does not contain valid json", value_err)
+    except ValueError, value_err:
+        print "File does not contain valid json", value_err
     return chls_json
 
 
