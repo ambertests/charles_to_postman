@@ -1,3 +1,4 @@
+#!/usr/local/bin/python
 """
 charles_to_postman.py
 by: Amber Race
@@ -149,8 +150,7 @@ def convert_charles_to_postman(charles_node):
     path = charles_node['path']
     method = charles_node['method']
     postman_item['name'] = path
-
-    if charles_node['port']:
+    if 'port' in charles_node:
         url = '%s://%s:%s%s' % (charles_node['scheme'],
                                 charles_node['host'], charles_node['port'], path)
     else:
@@ -168,8 +168,9 @@ def convert_charles_to_postman(charles_node):
             {'key': header['name'], 'value': header['value']})
 
     if c_request['sizes']['body'] > 0:
-        body = {'mode': 'raw', 'raw': c_request['body']['text']}
-        p_request['body'] = body
+        if 'text' in c_request['body']:
+            body = {'mode': 'raw', 'raw': c_request['body']['text']}
+            p_request['body'] = body
 
     postman_item['request'] = p_request
 
@@ -191,10 +192,11 @@ def convert_charles_to_postman(charles_node):
             {'key': header['name'], 'value': header['value']})
 
     if c_response['sizes']['body'] > 0:
-        p_response['body'] = c_response['body']['text']
-        if c_response['mimeType'] == 'application/json':
-            p_response['_postman_previewlanguage'] = 'json'
-            p_response['_postman_previewtype'] = 'parsed'
+        if 'text' in c_response['body']:
+            p_response['body'] = c_response['body']['text']
+            if c_response['mimeType'] == 'application/json':
+                p_response['_postman_previewlanguage'] = 'json'
+                p_response['_postman_previewtype'] = 'parsed'
 
     postman_item['response'].append(p_response)
 
